@@ -1,11 +1,9 @@
 # Colloseus-Mod 
-# DEVELOPMENT IS STOPPED FOREVER
+### DEVELOPMENT IS STOPPED FOREVER
 Modification for Mindustry game. Adds new items, liquids, fabrics, turrets, mechanics, maps and weathers.
 
 All turrets and units are divided into factions. There are 6 fractions in total. 
 This mod is entirely made up of scripts. The scripts and nothing more. Enjoy. 
-
-Modification development is forever stopped. 
 
 **Min game version - 121**
 
