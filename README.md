@@ -4,7 +4,7 @@ Modification for Mindustry game. Adds new items, liquids, fabrics, turrets, mech
 All turrets and units are divided into factions. There are 6 fractions in total. 
 This mod is entirely made up of scripts. The scripts and nothing more. Enjoy. 
 
-Modification development is forever stopped. 
+Modification development is forever stopped... 
 
 **Min game version - 121**
 
