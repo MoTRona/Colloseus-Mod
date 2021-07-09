@@ -367,11 +367,11 @@ E.YellowBeamChargeBegin = new Effect(30, 300, e => {
 
 E.YellowBeamCharge = new Effect(30, 300, e => {
     Draw.color(F.fi("topaz").color, Color.white, e.fin());
-    Lines.stroke(e.fin() * 5);
-    Lines.circle(e.x, e.y, e.fout() * 60.0);
+    Lines.stroke(e.fin() * 3.5);
+    Lines.circle(e.x, e.y, e.fout() * 30.0);
 
-    Angles.randLenVectors(e.id, 4, 15.0 + 160.0 * e.fout(), e.rotation, 10, new Floatc2({get(x, y){
-        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 32);
+    Angles.randLenVectors(e.id, 6, 15.0 + 200.0 * e.fout(), e.rotation, 15, new Floatc2({get(x, y){
+        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 24);
     }}));
 });  
 
