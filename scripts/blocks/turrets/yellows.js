@@ -114,7 +114,7 @@ const MovingLaser = extend(BasicBulletType, {
             World.toTile(PredBeam[3]), 
             World.toTile(PredBeam[2] + v.x), 
             World.toTile(PredBeam[3] + v.y), 
-            new World.Raycaster({accept: (x, y) => {
+            new Geometry.Raycaster({accept: (x, y) => {
                 furthest = Vars.world.build(x, y);
                 
                 if(furthest != null && furthest.team != b.team && (furthest.block.absorbLasers || furthest.block.insulated)) return true;
