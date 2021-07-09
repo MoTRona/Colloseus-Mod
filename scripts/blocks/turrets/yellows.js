@@ -224,7 +224,6 @@ const SunAbsorberLaser = extend(ContinuousLaserBulletType, {
 	}, 
 
     draw(b){
-        /* float realLength = Damage.findLaserLength(b, length); */
         var fout = Mathf.clamp(b.time > b.lifetime - this.fadeTime ? 1.0 - (b.time - (this.lifetime - this.fadeTime)) / this.fadeTime : 1.0);
         var baseLen = /*realLength*/ this.length * fout;
 
@@ -264,7 +263,7 @@ SunAbsorberLaser.hittable = false;
 SunAbsorberLaser.absorbable = false
 SunAbsorberLaser.reflectable = false;
 
-const SunAbsorber = extendContent(LaserTurret, "absorber", {
+const SunAbsorber = extend(LaserTurret, "absorber", {
 	load(){
 		this.super$load();
 		
@@ -279,17 +278,50 @@ const SunAbsorber = extendContent(LaserTurret, "absorber", {
 		];
     }
 });
+SunAbsorber.buildType = () => {
+	const ent = extendContent(LaserTurret.LaserTurretBuild, SunAbsorber, {
+        shoot(type){
+            this.useAmmo();
+
+            this.block.tr.trns(this.rotation, this.block.shootLength);
+            this.block.chargeBeginEffect.at(this.x + this.block.tr.x, this.y + this.block.tr.y, this.rotation);
+            this.block.chargeSound.at(this.x + this.block.tr.x, this.y + this.block.tr.y, 1);
+
+            let c = 0
+            for(let i = 0; i < this.block.chargeEffects; i++){
+                Time.run(300-14*c, () => {
+                    if(!this.isValid()) return;
+                    this.block.tr.trns(this.rotation, this.block.shootLength);
+                    this.block.chargeEffect.at(this.x + this.block.tr.x, this.y + this.block.tr.y, this.rotation);
+                });
+                
+                if(c != this.block.chargeEffects) c++
+            };
+
+            this.charging = true;
+
+            Time.run(300, () => {
+                if(!this.isValid()) return;
+                this.block.tr.trns(this.rotation, this.block.shootLength);
+                this.recoil = this.block.recoilAmount;
+                this.heat = 1.0;
+                this.bullet(type, this.rotation + Mathf.range(this.block.inaccuracy));
+                this.effects();
+                this.charging = false
+            })
+        }
+	});
+	return ent;
+};
 SunAbsorber.buildVisibility = BuildVisibility.shown;
 SunAbsorber.shootType = SunAbsorberLaser;
 SunAbsorber.update = true;
 SunAbsorber.size = 8;
 SunAbsorber.reloadTime = 1200;
 
-SunAbsorber.chargeTime = 300;
 SunAbsorber.chargeEffects = 20;
 SunAbsorber.chargeBeginEffect = E.YellowBeamChargeBegin;
-SunAbsorber.chargeBegin = E.YellowBeamCharge;
-SunAbsorber.chargeMaxDelay = 300;
+SunAbsorber.chargeEffect = E.YellowBeamCharge;
 
 SunAbsorber.coolantMultiplier = 2.0;
 SunAbsorber.shootDuration = 600;
