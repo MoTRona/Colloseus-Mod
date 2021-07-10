@@ -39,7 +39,7 @@ spikeBullet.reflectable = false;
 spikeBullet.hitEffect = E.spikeHit;
 spikeBullet.despawnEffect = E.spikeHit;
 
-spikeBullet.status = S.speedMul.get(6);
+spikeBullet.status = StatusEffects.slow;
 spikeBullet.statusDuration = 60.0 * 3.0;
 spikeBullet.splashDamage = 0.0;
 spikeBullet.splashDamageRadius = 10.0;
@@ -189,7 +189,7 @@ SpikeCircleOrbonBullet.reflectable = false;
 SpikeCircleOrbonBullet.hittable = false;
 SpikeCircleOrbonBullet.hitSize = 10.0;
 
-SpikeCircleOrbonBullet.status = StatusEffects.slow;
+SpikeCircleOrbonBullet.status = S.Slowest;
 SpikeCircleOrbonBullet.statusDuration = 60.0 * 3.0;
 
 const Spike = extendContent(ItemTurret, "spike", {
@@ -247,43 +247,3 @@ Spike.consumes.liquid(Liquids.cryofluid, 5.0/60.0);
 Spike.requirements = ItemStack.with(F.fi("diamond"), 650, Items.surgeAlloy, 400, Items.silicon, 480, Items.titanium, 450, F.fi("cutol"), 320, F.fi("orbon"), 240, F.fi("palladium"), 350);
 
 F.techNode(Rapier, Spike, ItemStack.with(F.fi("diamond"), 72000, Items.surgeAlloy, 45000, Items.silicon, 54000, Items.titanium, 50000, F.fi("cutol"), 35000, F.fi("orbon"), 27500, F.fi("palladium"), 40000));
-
-////
-////
-////
-
-const Needle = extendContent(ItemTurret, "needle", {
-	load(){
-	    this.super$load();
-
-	    this.baseRegion = F.tex("block-8");
-    }, 
-	
-	icons(){
-		return [
-			F.tex("block-8"),
-			F.tex("needle")
-		];
-    }
-});
-Needle.shootEffect = Fx.none;
-Needle.reloadTime = 100.0;
-Needle.size = 8;
-Needle.range = 200.0;
-Needle.shootShake = 6.5;
-Needle.alternate = true;
-Needle.inaccuracy = 0;
-Needle.recoilAmount = 8.0;
-Needle.restitution = 0.04;
-Needle.shootSound = Sounds.shotgun;
-Needle.shootShake = 2.5;
-Needle.category = Category.turret;
-Needle.buildVisibility = BuildVisibility.shown;
-Needle.ammo(
-    F.fi("orbon"), SpikeCircleOrbonBullet
-);
-Needle.consumes.power(1600/60.0);
-Needle.consumes.liquid(F.fl("helium-liquid"), 10.0/60.0);
-Needle.requirements = ItemStack.with(F.fi("diamond"), 1200, Items.surgeAlloy, 900, Items.silicon, 800, Items.thorium, 450, F.fi("contritum"), 450, F.fi("orbon"), 550, F.fi("palladium"), 800, F.fi("meteorite"), 1000, F.fi("photonite"), 1000);
-
-F.techNode(Spike, Needle, ItemStack.with(F.fi("diamond"), 150000, Items.surgeAlloy, 100000, Items.silicon, 90000, Items.thorium, 55000, F.fi("contritum"), 50000, F.fi("orbon"), 64000, F.fi("palladium"), 85000, F.fi("meteorite"), 120000, F.fi("photonite"), 120000));

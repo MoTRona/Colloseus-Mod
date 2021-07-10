@@ -10,6 +10,23 @@ const E = this.global.EFFECTS;
 //// 
   
 const DischargeBullet = extend(BasicBulletType, {
+	hitEffect: E.hitMovingLaser,
+	despawnEffect: Fx.none,
+	pierce: false,
+	hittable: false,
+	absorbable: true, 
+	reflectable: false,
+	damage: 60,
+	speed: 3.0,
+	lifetime: 90,
+	hitSize: 14,
+	width: 15,
+	height: 15,
+	
+	hitColor: F.fi("topaz").color,
+	frontColor: F.fi("topaz").color,
+	backColor: F.fi("topaz").color.cpy().mul(0.8),
+ 
     update(b){
         Lightning.create(b, F.fi("topaz").color, 30.0, b.x, b.y, Mathf.random(360.0), 3.0 + Mathf.random(2.0));
         
@@ -17,36 +34,20 @@ const DischargeBullet = extend(BasicBulletType, {
         if(build instanceof Wall && build.block.insulated) b.absorb();
     }
 });
-DischargeBullet.hitEffect = E.hitMovingLaser;
-DischargeBullet.despawnEffect = Fx.none;
-DischargeBullet.pierce = false;
-DischargeBullet.hittable = false;
-DischargeBullet.absorbable = true
-DischargeBullet.reflectable = false;
-DischargeBullet.damage = 60;
-DischargeBullet.speed = 3.0;
-DischargeBullet.lifetime = 90;
-DischargeBullet.hitSize = 14;
-DischargeBullet.width = 15;
-DischargeBullet.height = 15;
-
-DischargeBullet.hitColor = F.fi("topaz").color;
-DischargeBullet.frontColor = F.fi("topaz").color;
-DischargeBullet.backColor = F.fi("topaz").color.cpy().mul(0.8);
- 
-const Discharge = extendContent(PowerTurret, "discharge", {});
-Discharge.shootType = DischargeBullet;
-Discharge.shootSound = Sounds.railgun;
-Discharge.shootEffect = E.dischargeShoot;
-Discharge.powerUse = 800.0/60.0;
-Discharge.reloadTime = 60.0;
-Discharge.ammoUseEffect = Fx.none;
-Discharge.recoilAmount = 4.0;
-Discharge.restitution = 0.03;
-Discharge.range = 180.0;
-Discharge.size = 3;
-Discharge.category = Category.turret;
-Discharge.buildVisibility = BuildVisibility.shown;
+const Discharge = extendContent(PowerTurret, "discharge", {
+	shootType: DischargeBullet,
+	shootSound: Sounds.railgun,
+	shootEffect: E.dischargeShoot,
+	powerUse: 800.0/60.0,
+	reloadTime: 60.0,
+	ammoUseEffect: Fx.none,
+	recoilAmount: 2.5,
+	restitution: 0.03,
+	range: 180.0,
+	size: 3,
+	category: Category.turret,
+	buildVisibility: BuildVisibility.shown
+});
 Discharge.requirements = ItemStack.with(F.fi("topaz"), 120, Items.silicon, 80, Items.metaglass, 100, Items.titanium, 100);
   
   /////
@@ -54,6 +55,18 @@ Discharge.requirements = ItemStack.with(F.fi("topaz"), 120, Items.silicon, 80, I
   /////
   
 const MovingLaser = extend(BasicBulletType, {
+	hitColor: F.fi("topaz").color,
+	hitEffect: E.hitMovingLaser,
+	despawnEffect: Fx.none,
+	pierce: false,
+	hittable: false,
+	absorbable: false,
+	reflectable: false,
+	damage: 32,
+	speed: 4.8,
+	lifetime: 70,
+	drawSize: 1500,
+	
     draw(b) {
     	if(b.data == null) return;
     
@@ -132,19 +145,22 @@ const MovingLaser = extend(BasicBulletType, {
     } 
 });
 
-MovingLaser.hitColor = F.fi("topaz").color;
-MovingLaser.hitEffect = E.hitMovingLaser;
-MovingLaser.despawnEffect = Fx.none;
-MovingLaser.pierce = false;
-MovingLaser.hittable = false;
-MovingLaser.absorbable = false;
-MovingLaser.reflectable = false;
-MovingLaser.damage = 32;
-MovingLaser.speed = 4.8;
-MovingLaser.lifetime = 70;
-MovingLaser.drawSize = 1500;
  
  const Thunder = extendContent(PowerTurret, "thunder", {
+	shootType: MovingLaser,
+	shootSound: SO.movingLaser,
+	shootEffect: E.thunderShoot,
+	reloadTime: 90.0,
+	restitution: 0.01, 
+	ammoUseEffect: Fx.none,
+	recoilAmount: 0.0,
+	range: 360,
+	size: 5,
+	buildCostMultiplier: 0.8,
+	powerUse: 50,
+	category: Category.turret,
+	buildVisibility: BuildVisibility.shown,
+
 	load(){
 		this.super$load();
 		
@@ -181,20 +197,6 @@ Thunder.buildType = () => {
 	});
 	return ent;
 };
-Thunder.shootType = MovingLaser;
-Thunder.shootSound = SO.movingLaser;
-Thunder.shootEffect = E.thunderShoot;
-Thunder.powerUse = 20;
-Thunder.reloadTime = 90.0;
-Thunder.restitution = 0.01; 
-Thunder.ammoUseEffect = Fx.none;
-Thunder.recoilAmount = 6.0;
-Thunder.range = 360;
-Thunder.size = 5;
-Thunder.buildCostMultiplier = 0.8;
-Thunder.powerUse = 3000.0/60.0;
-Thunder.category = Category.turret;
-Thunder.buildVisibility = BuildVisibility.shown;
 Thunder.requirements = ItemStack.with(F.fi("topaz"), 400, Items.silicon, 325, F.fi("cutol"), 150, F.fi("lux"), 240, Items.surgeAlloy, 340, Items.phaseFabric, 180);
  
 ////
@@ -202,6 +204,25 @@ Thunder.requirements = ItemStack.with(F.fi("topaz"), 400, Items.silicon, 325, F.
 ////
 
 const SunAbsorberLaser = extend(ContinuousLaserBulletType, {
+	oscScl: 1.2,
+	oscMag: 0.8,
+	length: 600.0,
+	width: 18.0,
+	colors: [Color.valueOf("FFE93D44"), Color.valueOf("FFE93D66"), Color.valueOf("FFF43D99"), Color.white],
+	strokes: [1.0, 0.85, 0.7, 0.5],
+	tscales: [1.4, 1.1, 0.9, 0.55],
+	lenscales: [0.8, 0.92, 0.98, 1.01],
+	damage: 1200,
+	hitEffect: Fx.hitMeltdown,
+	despawnEffect: Fx.none,
+	hitSize: 18.0,
+	drawSize: 700,
+	shootEffect: Fx.none,
+	smokeEffect: Fx.none,
+	hittable: false,
+	absorbable: false, 
+	reflectable: false,
+	
 	update: function(b){
 
 		Effect.shake(5.0, 5.0, b.x, b.y);
@@ -244,26 +265,37 @@ const SunAbsorberLaser = extend(ContinuousLaserBulletType, {
     } 
 });
 
-SunAbsorberLaser.oscScl = 1.2;
-SunAbsorberLaser.oscMag = 0.8;
-SunAbsorberLaser.length = 600.0;
-SunAbsorberLaser.width = 18.0;
-SunAbsorberLaser.colors = [Color.valueOf("FFE93D44"), Color.valueOf("FFE93D66"), Color.valueOf("FFF43D99"), Color.white];
-SunAbsorberLaser.strokes = [1.0, 0.85, 0.7, 0.5];
-SunAbsorberLaser.tscales = [1.4, 1.1, 0.9, 0.55];
-SunAbsorberLaser.lenscales = [0.8, 0.92, 0.98, 1.01];
-SunAbsorberLaser.damage = 1200;
-SunAbsorberLaser.hitEffect = Fx.hitMeltdown;
-SunAbsorberLaser.despawnEffect = Fx.none;
-SunAbsorberLaser.hitSize = 18.0;
-SunAbsorberLaser.drawSize = 700; //570+130
-SunAbsorberLaser.shootEffect = Fx.none;
-SunAbsorberLaser.smokeEffect = Fx.none;
-SunAbsorberLaser.hittable = false;
-SunAbsorberLaser.absorbable = false
-SunAbsorberLaser.reflectable = false;
 
 const SunAbsorber = extend(LaserTurret, "absorber", {
+	buildVisibility: BuildVisibility.shown,
+	shootType: SunAbsorberLaser,
+	update: true,
+	size: 8,
+	reloadTime: 1200,
+	
+	chargeEffects: 20,
+	chargeBeginEffect: E.YellowBeamChargeBegin,
+	chargeEffect: E.YellowBeamCharge,
+	
+	coolantMultiplier: 2.0,
+	shootDuration: 600,
+	firingMoveFract: 0.0,
+	hasPower: true,
+	hasLiquids: true,
+	range: 570,
+	ammoUseEffect: Fx.none,
+	rotateSpeed: 0.4,
+	recoilAmount: 5.0,
+	restitution: 0.005,
+	powerUse: 225,
+	buildCostMultiplier: 0.3,
+	category: Category.turret,
+	
+	activeSound: SO.beamLaser, 
+	activeSoundVolume: 3.0, 
+	shootSound: SO.beamShoot, 
+	shootShake: 5.0, 
+	
 	load(){
 		this.super$load();
 		
@@ -313,36 +345,8 @@ SunAbsorber.buildType = () => {
 	});
 	return ent;
 };
-SunAbsorber.buildVisibility = BuildVisibility.shown;
-SunAbsorber.shootType = SunAbsorberLaser;
-SunAbsorber.update = true;
-SunAbsorber.size = 8;
-SunAbsorber.reloadTime = 1200;
-
-SunAbsorber.chargeEffects = 20;
-SunAbsorber.chargeBeginEffect = E.YellowBeamChargeBegin;
-SunAbsorber.chargeEffect = E.YellowBeamCharge;
-
-SunAbsorber.coolantMultiplier = 2.0;
-SunAbsorber.shootDuration = 600;
-SunAbsorber.firingMoveFract = 0.0;
-SunAbsorber.hasPower = true;
-SunAbsorber.hasLiquids = true;
-SunAbsorber.range = 570;
-SunAbsorber.ammoUseEffect = Fx.none;
-SunAbsorber.rotateSpeed = 0.4;
-SunAbsorber.recoilAmount = 5.0;
-SunAbsorber.restitution = 0.005;
-SunAbsorber.powerUse = 225;
-SunAbsorber.buildCostMultiplier = 0.3;
 SunAbsorber.consumes.liquid(F.fl("helium-liquid"), 0.5);
-SunAbsorber.category = Category.turret;
 SunAbsorber.requirements = ItemStack.with(F.fi("topaz"), 740, F.fi("laculis"), 460, F.fi("lux"), 640, F.fi("meteorite"), 520, Items.silicon, 550, Items.phaseFabric, 350, Items.surgeAlloy, 465, F.fi("contritum"), 540);
-
-SunAbsorber.activeSound = SO.beamLaser;
-SunAbsorber.activeSoundVolume = 3.0;
-SunAbsorber.shootSound = SO.beamShoot;
-SunAbsorber.shootShake = 5.0;
 
 ////////
 ///////
