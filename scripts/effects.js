@@ -370,7 +370,7 @@ E.YellowBeamCharge = new Effect(30, 300, e => {
     Lines.stroke(e.fin() * 3.5);
     Lines.circle(e.x, e.y, e.fout() * 30.0);
 
-    Angles.randLenVectors(e.id, 6, 15.0 + 200.0 * e.fout(), e.rotation, 15, new Floatc2({get(x, y){
+    Angles.randLenVectors(e.id, 6, 15.0 +  200.0 * e.fout(), e.rotation, 15, new Floatc2({get(x, y){
         Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 24);
     }}));
 });  
