@@ -72,7 +72,7 @@ RapierPlastanium.toColor = C.diamondDark;
 RapierPlastanium.hitSize = 8.0;
 RapierPlastanium.hitShake = 4.0;
 
-RapierPlastanium.status = S.speedMul.get(5);
+RapierPlastanium.status = StatusEffects.slow;
 RapierPlastanium.statusDuration = 60.0 * 3.0;
 
 const RapierDiamond = extend(ShrapnelBulletType, {});
@@ -189,7 +189,7 @@ SpikeCircleOrbonBullet.reflectable = false;
 SpikeCircleOrbonBullet.hittable = false;
 SpikeCircleOrbonBullet.hitSize = 10.0;
 
-SpikeCircleOrbonBullet.status = S.speedMul.get(5);
+SpikeCircleOrbonBullet.status = StatusEffects.slow;
 SpikeCircleOrbonBullet.statusDuration = 60.0 * 3.0;
 
 const Spike = extendContent(ItemTurret, "spike", {
