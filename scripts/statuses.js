@@ -14,7 +14,7 @@ const statusArray = (amount, value, startValue, name) => {
     for(var i = 0; i < amount; i++) {
     	try{
 	    	const val = startValue + value * ( i + 1.0);
-	        const n = String(name+val);
+	        const n = String(name+(i+1));
 	    
 			const e = extendContent(StatusEffect, n, {});
 			e.speedMultiplier = name == "speedMul" ? val : 1.0;
@@ -35,6 +35,20 @@ S.speedMul = statusArray(30, 0.1, 0.0, "speedMul");
 S.damageMul = statusArray(30, 0.1, 0.0, "damageMul");
 S.damage = statusArray(30, 0.1, 0.0, "damage");
 S.armorMul = statusArray(30, 0.1, 0.0, "armorMul");
+
+
+//custom slow = 0.4
+const Slower = extendContent(StatusEffect, "slower", {
+	speedMultiplier: 0.8, 
+	color: Pal.lightishGray
+});
+S.Slower = Slower;
+
+const Slowest = extendContent(StatusEffect, "slowest", {
+	speedMultiplier: 0.15, 
+	color: Color.valueOf("#706F74")
+});
+S.Slowest = Slowest;
 
 
 
