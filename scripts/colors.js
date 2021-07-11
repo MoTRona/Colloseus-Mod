@@ -16,6 +16,10 @@ C.contritumLight = Color.valueOf("FEB380");
 C.contritum = Color.valueOf("D9967B");
 C.contritumDark = Color.valueOf("C45F5F");
 
+C.laculisLight = Color.valueOf("91D8D5");
+C.laculis = Color.valueOf("5FB8B5");
+C.laculisDark = Color.valueOf("318683");
+
 C.orbonLight = Color.valueOf("EFBC9E");
 C.orbon = Color.valueOf("DBA88A");
 C.orbonDark = Color.valueOf("C99374");
