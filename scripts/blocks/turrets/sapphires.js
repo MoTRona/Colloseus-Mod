@@ -117,7 +117,7 @@ const Wasp = extendContent(ItemTurret, "wasp", {
 	shootSound: SO.missileFastestFlight, 
 	health: 4850,
 	size: 4,
-	//reloadTime: 1800,
+	reloadTime: 1800,
 	range: 850,
 	ammoUseEffect: Fx.casing3,
 	buildVisibility: BuildVisibility.shown,
@@ -245,7 +245,7 @@ Executioner.buildType = () => {
 	        var i = Mathf.round(Mathf.signs[this.shotCounter % 2]);
 	
 	        this.block.tr.trns(this.rotation - 90, 2 * i, this.size * 4 + 2);
-	        this.bullet(type, this.rotation + Mathf.range(this.inaccuracy));
+	        this.bullet(type, this.rotation + Mathf.range(this.block.inaccuracy));
 
             this.shotCounter++;
 
