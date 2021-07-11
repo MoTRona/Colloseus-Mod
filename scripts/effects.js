@@ -399,11 +399,46 @@ E.burningIntensiverEffect = new Effect(55, e => {
 ///
 
 E.waspShootEffect = new Effect(70, e => {
-    Angles.randLenVectors(e.id, 15, 4.0 + e.fin() * 120.0, e.rotation, 15, new Floatc2({get(x, y){
-        Draw.color(C.standartSapphire, e.fout()+0.7);
-        Fill.circle(e.x + x, e.y + y, 1.0 + 3.0 * e.fout());
+    Angles.randLenVectors(e.id, 12, 4.0 + e.fin() * 90.0, e.rotation, 15, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.6);
+        Fill.circle(e.x + x, e.y + y, 0.6 + 2.0 * e.fout());
 	}}))
-}) 
+});
+
+E.mosquitoShootEffect = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 4, 1.5 + e.fin() * 12.0, e.rotation, 18, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.6);
+        Fill.circle(e.x + x, e.y + y, e.fout() * 1.4);
+	}}))
+});
+
+E.executionerShootEffect = new Effect(50, e => {
+    Angles.randLenVectors(e.id, 5, 2.0 + e.fin() * 16.0, e.rotation, 20, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.4);
+        Fill.circle(e.x + x, e.y + y, 0.2 + e.fout() * 2.1);
+	}}))
+});
+
+E.waspBulletHitEffect = new Effect(50, e => {
+    Angles.randLenVectors(e.id, 8, 3.0 + e.fin() * 32.0, 0, 360, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.3);
+    	Fill.circle(e.x + x, e.y + y, 0.8 + e.fout() * 2.1);
+	}}))
+}); 
+
+E.mosquitoBulletHitEffect = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 3, 1.0 + e.fin() * 7.0, 0, 360, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.5);
+    	Fill.circle(e.x + x, e.y + y, e.fout());
+	}}))
+}); 
+
+E.executionerBulletHitEffect = new Effect(45, e => {
+    Angles.randLenVectors(e.id, 5, 2.5 + e.fin() * 12.0, 0, 360, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.4);
+    	Fill.circle(e.x + x, e.y + y, 0.4+1.2*e.fout());
+	}}))
+}); 
 
 ///
 ///diamonds
