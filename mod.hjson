@@ -1,6 +1,5 @@
 name: "collos"
 displayName: "Colloseus Mod"
-description: "Modification for Mindustry game. Adds new items, units, liquids, fabrics, turrets, mechanics, maps and weathers.
-All turrets and units are divided into factions. There are 6 fractions in total. This mod is entirely made up of scripts. Enjoy."
+description: "Modification for Mindustry game with new interesting content. The whole mod is divided into 6 factions, which include turrets, units and special materials."
 minGameVersion: 126.2
-version: 1.2.3
+version: 1.2.4
