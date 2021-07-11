@@ -38,7 +38,7 @@ require("blocks/storage/safe");
 require("blocks/storage/projectors");
 require("blocks/storage/teleportPad");
 
-require("units/impaler");
+//require("units/impaler");
 require("units/leviathan");
 
 require("blocks/reconstructors/reconstructors");
