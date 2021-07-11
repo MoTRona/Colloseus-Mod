@@ -395,7 +395,18 @@ E.burningIntensiverEffect = new Effect(55, e => {
 });
 
 ///
+///sapphires
 ///
+
+E.waspShootEffect = new Effect(70, e => {
+    Angles.randLenVectors(e.id, 15, 4.0 + e.fin() * 120.0, e.rotation, 15, new Floatc2({get(x, y){
+        Draw.color(C.standartSapphire, e.fout()+0.7);
+        Fill.circle(e.x + x, e.y + y, 1.0 + 3.0 * e.fout());
+	}}))
+}) 
+
+///
+///diamonds
 ///
 
 E.LilSpikeHitEffect = new Effect(30, e => {
