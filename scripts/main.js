@@ -20,25 +20,25 @@ require("blocks/distribution/mainDistribution");
 
 require("blocks/drills/drills");
 
-require("blocks/storage/safe");
-
 require("blocks/turrets/flood");
-require("blocks/turrets/purples");
-require("blocks/turrets/yellows");
+require("blocks/turrets/amethysts");
+require("blocks/turrets/topazes");
 require("blocks/turrets/diamonds");
-require("blocks/turrets/reds");
+require("blocks/turrets/needle");
+require("blocks/turrets/rubies");
 require("blocks/turrets/gem");
+require("blocks/turrets/sapphires");
 
 require("blocks/walls/walls");
 
 require("blocks/power/other");
 require("blocks/power/materiaReactor");
 
+require("blocks/storage/gramophone");
 require("blocks/storage/safe");
 require("blocks/storage/projectors");
 require("blocks/storage/teleportPad");
 
-//require("units/impaler");
 require("units/leviathan");
 
 require("blocks/reconstructors/reconstructors");
