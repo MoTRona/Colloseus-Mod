@@ -9,7 +9,7 @@ This mod is entirely made up of scripts. The scripts and nothing more. Enjoy.
 
 **Min game version - 126.2**
 
-**Current mod version - 1.2.2**
+**Current mod version - 1.2.3**
 
 ![Logo](sprites-override/ui/logo.png)
 
