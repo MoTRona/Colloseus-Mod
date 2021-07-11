@@ -1,8 +1,46 @@
 const F = require("func");
 const E = this.global.EFFECTS;
 const C = this.global.COLORS;
+const S = this.global.STATUSES;
+
+const LilSpike = extend(BasicBulletType, {
+    draw(b) {
+    	let w = 3.14*5.4/6;
+        let h = 3.0;
+        
+    	Draw.color(C.angel, Math.min(b.fout()+0.5, 1));
+        Draw.blend(Blending.additive);
+    	Drawf.tri(b.x, b.y, w, h, b.rotation());
+    	Drawf.tri(b.x, b.y, w, h/2.0, b.rotation()-180);
+        Draw.blend();
+        Draw.color();
+    }
+});
+LilSpike.despawnEffect = E.LilSpikeDespawnEffect;
+LilSpike.hitEffect = E.LilSpikeHitEffect;
+LilSpike.damage = 140;
+LilSpike.speed = 3.5;
+LilSpike.lifetime = 100;
+LilSpike.drag = 0.03;
+LilSpike.pierce = true;
+LilSpike.hitSize = 4;
+LilSpike.pierceCap = 2;
+LilSpike.status = S.Slowest;
+LilSpike.statusDuration = 300;
 
 const Spike = extend(BasicBulletType, {
+    despawned(b){
+        for(var i = 0; i < 6; i++) {
+        	let ang = Mathf.randomSeedRange(b.id+6, 360)+i*60;
+        	var v = new Vec2().trns(ang, 2.7);
+        
+    	    LilSpike.create(b.owner, b.team, b.x + v.x, b.y + v.y, ang); 
+        };
+        E.spikeDespawnEffect.at(b.x, b.y, b.rotation(), C.angel);
+
+        Effect.shake(1.2, 1.2, b);
+    }, 
+    
     draw(b) {
     	Draw.color(C.angel, 0.98);
         Draw.blend(Blending.additive);
@@ -12,21 +50,23 @@ const Spike = extend(BasicBulletType, {
         	let ang = Mathf.randomSeedRange(b.id+6, 360)+i*60;
         	var v = new Vec2().trns(ang, 2.7);
         
-        	Drawf.tri(b.x + v.x, b.y + v.y, 2*3.14*2.7/6, 3.0, ang);
+        	Drawf.tri(b.x + v.x, b.y + v.y, 3.14*5.4/6, 3.0, ang);
         };
         Draw.blend();
         Draw.color()
     }
 });
-Spike.despawnShake = 1.2;
 Spike.despawnEffect = E.spikeDespawnEffect;
-Spike.damage = 780;
+Spike.hitEffect = E.spikeHitEffect;
+Spike.damage = 680;
 Spike.speed = 0.9;
 Spike.lifetime = 300;
 Spike.drag = 0.02;
 Spike.pierce = true;
 Spike.hitSize = 6;
 Spike.pierceCap = 6;
+Spike.status = S.Slowest;
+Spike.statusDuration = 150;
 
 const NeedleBullet = extend(BasicBulletType, {
     draw(b) {
@@ -52,25 +92,27 @@ NeedleBullet.pierce = true;
 NeedleBullet.pierceBuilding = true;
 NeedleBullet.hitSize = 8;
 NeedleBullet.pierceCap = 4;
+NeedleBullet.status = S.Slowest;
+NeedleBullet.statusDuration = 720;
 
 const Needle = extendContent(ItemTurret, "needle", {
 	shootEffect: Fx.none,
 	reloadTime: 135,
 	size: 8,
 	range: 260.0,
-	shootShake: 6.5,
+	shootShake: 7.8,
 	alternate: true,
-	inaccuracy: 0,
-	recoilAmount: 8.0,
-	restitution: 0.04,
+	inaccuracy: 2,
+	recoilAmount: 12.4,
+	restitution: 0.01,
 	shootSound: Sounds.shotgun,
 	category: Category.turret,
 	buildVisibility: BuildVisibility.shown,
 	chargeBeginEffect: E.needleCharge,  
 	chargeEffect: E.needleCharge, 
 	chargeEffects: 10, 
-	maxAmmo: 75, 
-	ammoPerShot: 15,
+	maxAmmo: 50, 
+	ammoPerShot: 10,
 	requirements: ItemStack.with(F.fi("diamond"), 1200, Items.surgeAlloy, 900, Items.silicon, 800, Items.thorium, 450, F.fi("contritum"), 450, F.fi("orbon"), 550, F.fi("palladium"), 800, F.fi("meteorite"), 1000, F.fi("photonite"), 1000), 
 	
 	load(){
@@ -121,7 +163,7 @@ Needle.buildType = () => {
         
         bullet(type, angle){ 
         	const rotAngle = this.rotation;
-	        for(var i = 0; i < 10; i++) {
+	        for(var i = 0; i < 5; i++) {
 	        	var v = new Vec2().trns(this.rotation, 30);
 	        
 	    	    Spike.create(this, this.team, this.x + v.x, this.y + v.y, this.rotation+Mathf.range(30), 5.0+Mathf.range(2.5), 1.0+Mathf.range(0.1)); 
