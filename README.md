@@ -9,7 +9,7 @@ All turrets and units are divided into factions. There are 6 fractions in total.
 
 **Min game version - 126.2**
 
-**Current mod version - 1.2.3**
+**Current mod version - 1.2.4**
 
 ![Logo](sprites-override/ui/logo.png)
 
