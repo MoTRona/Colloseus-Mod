@@ -7,3 +7,4 @@ SO.mixedLaserShoot = loadSound("mixedLaserShoot");
 SO.movingLaser = loadSound("movingLaser");
 SO.beamLaser = loadSound("beamLaser");
 SO.bigLaserShoot = loadSound("bigLaserShoot");
+SO.missileFastestFlight = loadSound("missileFastestFlight");
