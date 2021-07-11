@@ -22,6 +22,10 @@ function newCiEff(lifetime, startSize, multiplier, color1, color2){
     return effect
 }
 
+///
+///purples
+///
+
 E.magicTrailSwirl = newSwEff(15, 0.3, 2.2, C.magicLight, C.magic, 10);
 E.magicBulletTrail = new Effect(30, Distance, e => {
     Draw.color(C.magicLight, C.magic, e.fout());
@@ -89,41 +93,16 @@ E.magicShootEffectSmall = new Effect(20, e => {
 	}}))
 });
 
-E.yellowBallCharge = new Effect(120, Distance, e => {
-    Draw.color(C.energy);
-    Lines.stroke(e.fin() * 5.0);
-    Lines.circle(e.x, e.y, 20.0 + e.fout() * 140.0);
-
-    Angles.randLenVectors(e.id, 30, 80.0 * e.fout(), new Floatc2({get(x, y){
-        Fill.circle(e.x + x, e.y + y, e.fin() * 10.0);
-    }}));
-
-    Draw.color(C.energyLight);
-    Fill.circle(e.x, e.y, e.fin() * 30.0);
-
-    Draw.color();
-    Fill.circle(e.x, e.y, e.fin() * 15);
+E.magicUnitDamage = new Effect(40, e => {
+    Draw.color(C.magic);
+    Draw.alpha(0.1 + 0.5*e.fout());
+    Draw.rect(Core.atlas.find(e.data[0], Core.atlas.find("error")), e.x, e.y, e.rotation - e.data[1]);
+    Draw.alpha(1.0);
 });
 
-E.giantYellowBallHitBig = new Effect(24, Distance, e => {
-    Draw.color(C.energy);
-	Angles.randLenVectors(e.id * 11, 8, e.fin() * 64.0, e.rotation, 360.0, new Floatc2({get(x, y){
-		Fill.circle(e.x + x, e.y + y, e.fout() * 8 + 1.5);
-    }}));
-
-    Lines.stroke(e.fout() * 4.0);
-    Lines.circle(e.x, e.y, 10.0 + e.fin() * 80.0);
-});
-
-E.giantYellowBallHitLarge = new Effect(38, Distance, e => {
-    Draw.color(C.energy);
-	Angles.randLenVectors(e.id * 11, 13, e.fin() * 120.0, e.rotation, 360.0, new Floatc2({get(x, y){
-		Fill.circle(e.x + x, e.y + y, e.fout() * 12 + 3.0);
-    }}));
-
-    Lines.stroke(e.fout() * 8.0);
-    Lines.circle(e.x, e.y, 20.0 + e.fin() * 100.0);
-});
+///
+///craft
+///
 
 E.cutolCraft = new Effect(25, e => {
     Angles.randLenVectors(e.id, 8, 8 + e.fin() * 13, new Floatc2({get(x, y){
@@ -186,66 +165,11 @@ E.energyShrapnelShoot = new Effect(8, e => {
     } 
 });
 
-E.rapierShoot = new Effect(7, e => {
-    for(var i = 0; i < 4; i++) {
-	    Draw.color(C.diamond, C.diamondDark, e.fout());
-	    Drawf.tri(e.x, e.y, 
-            energyShootsWidth[i], 
-            energyShootsHeight[i],
-            e.rotation+(energyShootsAngle[i])
-        );
-    } 
-});
-
-E.rapierSmoke = new Effect(20, e => {
-    Angles.randLenVectors(e.id, 12, 8.0 + e.fin() * 80.0, e.rotation, 15, new Floatc2({get(x, y){
-        Draw.color(C.diamond, C.diamondDark, e.fout());
-        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 4.0 + 12.0 * e.fout());
-	}}))
-});
-
 E.laculisAttraction = new Effect(18, e => {
     Angles.randLenVectors(e.id, 12, 6.0 + e.fout() * 12.0, 0.0, 360.0, new Floatc2({get(x, y){
         Draw.color(C.unitOrangeLight, C.unitOrange, e.fout());
         Lines.stroke(e.fin()*3.0);
         Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 2.0 + 8.0 * e.fin());
-	}}))
-});
-
-E.spikeHit = new Effect(15, e => {
-    Angles.randLenVectors(e.id, 4, 3.0 + e.fin() * 8.0, 0.0, 360.0, new Floatc2({get(x, y){
-        Draw.color(C.diamond, C.diamondDark, e.fout());
-        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1.0 + 2.5 * e.fout());
-	}}))
-});
-
-E.spikeSmoke = new Effect(35, e => {
-    Angles.randLenVectors(e.id, 20, 3.0 + e.fin() * 80.0, e.rotation, 15, new Floatc2({get(x, y){
-        Draw.color(C.diamond, C.diamondDark, e.fout());
-        Lines.stroke(e.fout()*4.0);
-        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1.0 + 3.0 * e.fout());
-	}}))
-});
-
-const spikeTurretShootsAngle = [-55, -30, 30, 55];
-const spikeTurretShootsWidth = [7.6, 9.8, 9.8, 7.6];
-const spikeTurretShootsHeight = [16.2, 26.0, 26.0, 16.2];
-E.spikeTurretShoot = new Effect(6, e => {
-    for(var i = 0; i < 4; i++) {
-	    Draw.color(C.diamond, C.diamondDark, e.fin());
-	    Drawf.tri(e.x, e.y, 
-            spikeTurretShootsWidth[i], 
-            spikeTurretShootsHeight[i],
-            e.rotation+(spikeTurretShootsAngle[i])
-        );
-    } 
-});
-
-E.smallSpikeHit = new Effect(15, e => {
-    Angles.randLenVectors(e.id, 3, 1.5 + e.fin() * 6.0, e.rotation, 45.0, new Floatc2({get(x, y){
-        Draw.color(C.diamond, C.diamondDark, e.fout());
-	    Lines.stroke(2.0 * e.fout());
-        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 0.2 + 2.4 * e.fout());
 	}}))
 });
 
@@ -294,11 +218,58 @@ E.curseEffect = new Effect(33, e => {
     Fill.circle(e.x, e.y, 0.5 + e.fout() * (0.5 + Mathf.randomSeedRange(e.id, 3.5)));
 });
 
-E.magicUnitDamage = new Effect(40, e => {
-    Draw.color(C.magic);
-    Draw.alpha(0.1 + 0.5*e.fout());
-    Draw.rect(Core.atlas.find(e.data[0], Core.atlas.find("error")), e.x, e.y, e.rotation - e.data[1]);
-    Draw.alpha(1.0);
+E.hitMovingLaser = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 3, 4 + e.fin() * 10.0, 0, 360.0, new Floatc2({get(x, y){
+        Draw.color(Color.white, F.fi("topaz").color, e.fout());
+        Fill.square(e.x + x, e.y + y, 0.5 + e.fout() * 1.2, 45);
+	}}))
+});
+
+E.movingLaserOnExtend = new Effect(35, e => {
+    Angles.randLenVectors(e.id, 3, 10.0 + e.fin() * 22.0, e.rotation, 10, new Floatc2({get(x, y){
+        Draw.color(Color.white, F.fi("topaz").color, e.fout());
+        Fill.square(e.x + x, e.y + y, 0.3 + e.fout(), 45);
+	}}))
+});
+
+///
+///yellows
+///
+
+E.yellowBallCharge = new Effect(120, Distance, e => {
+    Draw.color(C.energy);
+    Lines.stroke(e.fin() * 5.0);
+    Lines.circle(e.x, e.y, 20.0 + e.fout() * 140.0);
+
+    Angles.randLenVectors(e.id, 30, 80.0 * e.fout(), new Floatc2({get(x, y){
+        Fill.circle(e.x + x, e.y + y, e.fin() * 10.0);
+    }}));
+
+    Draw.color(C.energyLight);
+    Fill.circle(e.x, e.y, e.fin() * 30.0);
+
+    Draw.color();
+    Fill.circle(e.x, e.y, e.fin() * 15);
+});
+
+E.giantYellowBallHitBig = new Effect(24, Distance, e => {
+    Draw.color(C.energy);
+	Angles.randLenVectors(e.id * 11, 8, e.fin() * 64.0, e.rotation, 360.0, new Floatc2({get(x, y){
+		Fill.circle(e.x + x, e.y + y, e.fout() * 8 + 1.5);
+    }}));
+
+    Lines.stroke(e.fout() * 4.0);
+    Lines.circle(e.x, e.y, 10.0 + e.fin() * 80.0);
+});
+
+E.giantYellowBallHitLarge = new Effect(38, Distance, e => {
+    Draw.color(C.energy);
+	Angles.randLenVectors(e.id * 11, 13, e.fin() * 120.0, e.rotation, 360.0, new Floatc2({get(x, y){
+		Fill.circle(e.x + x, e.y + y, e.fout() * 12 + 3.0);
+    }}));
+
+    Lines.stroke(e.fout() * 8.0);
+    Lines.circle(e.x, e.y, 20.0 + e.fin() * 100.0);
 });
 
 E.thunderShoot = new Effect(50, e => {
@@ -314,22 +285,6 @@ E.dischargeShoot = new Effect(35, e => {
         Fill.square(e.x + x, e.y + y, 0.4 + e.fout() * 1.5, 45);
 	}}))
 });
-
-E.hitMovingLaser = new Effect(30, e => {
-    Angles.randLenVectors(e.id, 3, 4 + e.fin() * 10.0, 0, 360.0, new Floatc2({get(x, y){
-        Draw.color(Color.white, F.fi("topaz").color, e.fout());
-        Fill.square(e.x + x, e.y + y, 0.5 + e.fout() * 1.2, 45);
-	}}))
-});
-
-E.movingLaserOnExtend = new Effect(35, e => {
-    Angles.randLenVectors(e.id, 3, 10.0 + e.fin() * 22.0, e.rotation, 10, new Floatc2({get(x, y){
-        Draw.color(Color.white, F.fi("topaz").color, e.fout());
-        Fill.square(e.x + x, e.y + y, 0.3 + e.fout(), 45);
-	}}))
-});
-
-/////////
 
 E.YellowBeamFlare = new Effect(30, e => {
   Draw.color(Color.valueOf("FFFFFF44"));
@@ -375,14 +330,6 @@ E.YellowBeamCharge = new Effect(30, 300, e => {
     }}));
 });  
 
-E.circleSpikeHit = new Effect(20, e => {
-    Angles.randLenVectors(e.id, 7, 5.0 + e.fin() * 12.0, 0.0, 360.0, new Floatc2({get(x, y){
-        Draw.color(C.diamond, C.diamondDark, e.fout());
-        Lines.stroke(e.fout()*2.0);
-        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1.2 + 3.2 * e.fout());
-	}}))
-});
-
 E.materializerCraft = new Effect(40, e => {
     Angles.randLenVectors(e.id, 12, 1.0 + e.fin() * 5.0, 0.0, 360.0, new Floatc2({get(x, y){
         Draw.color(e.color.cpy().mul(0.9));
@@ -400,6 +347,10 @@ E.gemLaserHit = new Effect(20, e => {
 E.angelLight = new Effect(20, e => {
     Vars.renderer.lights.add(e.x, e.y, 4.0 + 20.0 * e.fout(), e.color, 0.8);
 });
+
+///
+///
+///
 
 E.fireHit = new Effect(50, e => {
     Draw.color(Pal.lightFlame, Pal.darkFlame, Color.gray, e.fin());
@@ -440,5 +391,114 @@ E.burningIntensiverEffect = new Effect(55, e => {
     Draw.color(Pal.lightFlame, Pal.darkFlame, Color.gray, e.fin());
     Angles.randLenVectors(e.id, 3, 3.0 + e.fin() * 8.0, 90.0, 25.0, new Floatc2({get(x, y){
         Fill.circle(e.x + x, e.y + y, 0.6 + e.fout() * 2.0);
+	}}))
+});
+
+///
+///
+///
+
+E.LilSpikeHitEffect = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 2, 4.0 + e.fin() * 40.0, e.rotation, 90, new Floatc2({get(x, y){
+        Draw.color(C.angel, Math.min(e.fout()+0.15, 1));
+    	Fill.square(e.x + x, e.y + y, e.fout(), e.rotation+Mathf.randomSeedRange(e.id+6, 360));
+	}}))
+});
+
+E.LilSpikeDespawnEffect = new Effect(45, e => {
+    Angles.randLenVectors(e.id, 3, 2.0 + e.fin() * 28.0, 0, 360, new Floatc2({get(x, y){
+        Draw.color(C.angel, Math.min(e.fout()+0.15, 1));
+    	Fill.square(e.x + x, e.y + y, e.fout(), e.rotation+Mathf.randomSeedRange(e.id+6, 360));
+	}}))
+});
+
+E.needleCharge = new Effect(20, 300, e => {
+    Angles.randLenVectors(e.id, 4, 36.0 * e.fout(), e.rotation, 60, new Floatc2({get(x, y){
+    	Draw.color(C.angel);
+	    Fill.circle(e.x + x, e.y + y, e.fslope() * 3.0);
+    }}));
+});  
+
+E.circleSpikeHit = new Effect(20, e => {
+    Angles.randLenVectors(e.id, 7, 5.0 + e.fin() * 12.0, 0.0, 360.0, new Floatc2({get(x, y){
+        Draw.color(C.diamond, C.diamondDark, e.fout());
+        Lines.stroke(e.fout()*2.0);
+        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1.2 + 3.2 * e.fout());
+	}}))
+});
+
+E.needleDespawnEffect = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 3, 3.0 + e.fin() * 15.0, -e.rotation, 90, new Floatc2({get(x, y){
+        Draw.color(C.angel, Math.min(e.fout()+0.3, 1));
+    	Fill.circle(e.x + x, e.y + y, e.fslope() * 3.0 * e.data);
+	}}))
+});
+
+E.spikeDespawnEffect = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 7, 4.0 + e.fin() * 12, 0, 360, new Floatc2({get(x, y){
+        Draw.color(C.angel, Math.min(e.fout()+0.2, 1));
+    	Fill.circle(e.x + x, e.y + y, e.fout() * 3.0);
+	}}))
+});
+
+E.spikeHitEffect = new Effect(30, e => {
+    Angles.randLenVectors(e.id, 4, 5.0 + e.fin() * 50, e.rotation, 90, new Floatc2({get(x, y){
+        Draw.color(C.angel, Math.min(e.fout()+0.4, 1));
+    	Fill.square(e.x + x, e.y + y, e.fout() * 2.5, e.rotation+Mathf.randomSeedRange(e.id, 360));
+	}}))
+});
+
+E.spikeHit = new Effect(15, e => {
+    Angles.randLenVectors(e.id, 4, 3.0 + e.fin() * 8.0, 0.0, 360.0, new Floatc2({get(x, y){
+        Draw.color(C.diamond, C.diamondDark, e.fout());
+        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1.0 + 2.5 * e.fout());
+	}}))
+});
+
+E.spikeSmoke = new Effect(35, e => {
+    Angles.randLenVectors(e.id, 20, 3.0 + e.fin() * 80.0, e.rotation, 15, new Floatc2({get(x, y){
+        Draw.color(C.diamond, C.diamondDark, e.fout());
+        Lines.stroke(e.fout()*4.0);
+        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 1.0 + 3.0 * e.fout());
+	}}))
+});
+
+const spikeTurretShootsAngle = [-55, -30, 30, 55];
+const spikeTurretShootsWidth = [7.6, 9.8, 9.8, 7.6];
+const spikeTurretShootsHeight = [16.2, 26.0, 26.0, 16.2];
+E.spikeTurretShoot = new Effect(6, e => {
+    for(var i = 0; i < 4; i++) {
+	    Draw.color(C.diamond, C.diamondDark, e.fin());
+	    Drawf.tri(e.x, e.y, 
+            spikeTurretShootsWidth[i], 
+            spikeTurretShootsHeight[i],
+            e.rotation+(spikeTurretShootsAngle[i])
+        );
+    } 
+});
+
+E.smallSpikeHit = new Effect(15, e => {
+    Angles.randLenVectors(e.id, 3, 1.5 + e.fin() * 6.0, e.rotation, 45.0, new Floatc2({get(x, y){
+        Draw.color(C.diamond, C.diamondDark, e.fout());
+	    Lines.stroke(2.0 * e.fout());
+        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 0.2 + 2.4 * e.fout());
+	}}))
+});
+
+E.rapierShoot = new Effect(7, e => {
+    for(var i = 0; i < 4; i++) {
+	    Draw.color(C.diamond, C.diamondDark, e.fout());
+	    Drawf.tri(e.x, e.y, 
+            energyShootsWidth[i], 
+            energyShootsHeight[i],
+            e.rotation+(energyShootsAngle[i])
+        );
+    } 
+});
+
+E.rapierSmoke = new Effect(20, e => {
+    Angles.randLenVectors(e.id, 12, 8.0 + e.fin() * 80.0, e.rotation, 15, new Floatc2({get(x, y){
+        Draw.color(C.diamond, C.diamondDark, e.fout());
+        Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 4.0 + 12.0 * e.fout());
 	}}))
 });
