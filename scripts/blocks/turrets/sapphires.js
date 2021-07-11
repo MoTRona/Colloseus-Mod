@@ -6,7 +6,7 @@ const SO = this.global.SOUNDS;
 const MosquitoSapphireBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 40, 40, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 40, 45, b.rotation()-90);
         Draw.color();
     } 
 });
@@ -18,11 +18,13 @@ MosquitoSapphireBullet.homingPower = 0.05;
 MosquitoSapphireBullet.splashDamageRadius = 12;
 MosquitoSapphireBullet.splashDamage = 16;
 MosquitoSapphireBullet.ammoMultiplier = 1.0;
+MosquitoSapphireBullet.despawnEffect = E.mosquitoBulletHitEffect;
+MosquitoSapphireBullet.hitEffect = E.mosquitoBulletHitEffect;
 
 const MosquitoSiliconBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, this.width, this.height, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 48, 60, b.rotation()-90);
         Draw.color();
     } 
 });
@@ -34,18 +36,20 @@ MosquitoSiliconBullet.homingPower = 0.1;
 MosquitoSiliconBullet.splashDamageRadius = 24;
 MosquitoSiliconBullet.splashDamage = 25;
 MosquitoSiliconBullet.ammoMultiplier = 2.0;
+MosquitoSiliconBullet.despawnEffect = E.mosquitoBulletHitEffect;
+MosquitoSiliconBullet.hitEffect = E.mosquitoBulletHitEffect;
 
 const Mosquito = extendContent(ItemTurret, "mosquito", {
-	shootEffect: Fx.none,
+	shootEffect: E.mosquitoShootEffect,
 	smokeEffect: Fx.none,
 	health: 1340,
 	size: 2,
-	reloadTime: 20,
+	reloadTime: 10,
 	range: 140,
 	ammoUseEffect: Fx.casing2,
 	inaccuracy: 5,
-	recoilAmount: 5.0,
-	rotateSpeed: 0.8,
+	recoilAmount: 1.0,
+	rotateSpeed: 4.5,
 	category: Category.turret, 
 	buildVisibility: BuildVisibility.shown,
 	requirements: ItemStack.with(Items.metaglass, 30, F.fi("sapphire"), 45, Items.lead, 60, Items.silicon, 40)
@@ -64,11 +68,14 @@ const WaspPhotoniteBullet = extend(BasicBulletType, {
         Draw.color();
     } 
 });
+WaspPhotoniteBullet.trailChance = 0.5;
 WaspPhotoniteBullet.hitSize = 12;
 WaspPhotoniteBullet.lifetime = 17;
 WaspPhotoniteBullet.speed = 50;
 WaspPhotoniteBullet.damage = 1100;
 WaspPhotoniteBullet.ammoMultiplier = 8.0;
+WaspPhotoniteBullet.despawnEffect = E.waspBulletHitEffect;
+WaspPhotoniteBullet.hitEffect = E.waspBulletHitEffect;
 
 const WaspSiliconBullet = extend(MissileBulletType, {
     draw(b) {
@@ -77,12 +84,16 @@ const WaspSiliconBullet = extend(MissileBulletType, {
         Draw.color();
     } 
 });
+WaspSiliconBullet.trailChance = 0.5;
+WaspSiliconBullet.hitSize = 10;
 WaspSiliconBullet.lifetime = 850/30;
 WaspSiliconBullet.speed = 30;
 WaspSiliconBullet.damage = 550;
 WaspSiliconBullet.homingRange = 450;
 WaspSiliconBullet.homingPower = 5.0;
 WaspSiliconBullet.ammoMultiplier = 2.0;
+WaspSiliconBullet.despawnEffect = E.waspBulletHitEffect;
+WaspSiliconBullet.hitEffect = E.waspBulletHitEffect;
 
 const WaspPlastBullet = extend(MissileBulletType, {
     draw(b) {
@@ -91,6 +102,8 @@ const WaspPlastBullet = extend(MissileBulletType, {
         Draw.color();
     } 
 });
+WaspPlastBullet.trailChance = 0.5;
+WaspPlastBullet.hitSize = 9;
 WaspPlastBullet.lifetime = 850/35;
 WaspPlastBullet.speed = 35;
 WaspPlastBullet.damage = 450;
@@ -99,22 +112,29 @@ WaspPlastBullet.homingPower = 5.0;
 WaspPlastBullet.ammoMultiplier = 3;
 WaspPlastBullet.splashDamageRadius = 36;
 WaspPlastBullet.splashDamage = 375;
+WaspPlastBullet.despawnEffect = E.waspBulletHitEffect;
+WaspPlastBullet.hitEffect = E.waspBulletHitEffect;
 
 const WaspSurgeBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 90, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 130, b.rotation()-90);
         Draw.color();
     } 
 });
+WaspSurgeBullet.trailChance = 0.5;
+WaspSurgeBullet.hitSize = 10;
 WaspSurgeBullet.lifetime = 850/40;
 WaspSurgeBullet.speed = 40;
 WaspSurgeBullet.damage = 875;
 WaspSurgeBullet.ammoMultiplier = 5.0;
+WaspSurgeBullet.despawnEffect = E.waspBulletHitEffect;
+WaspSurgeBullet.hitEffect = E.waspBulletHitEffect;
 
 const Wasp = extendContent(ItemTurret, "wasp", {
 	shootEffect: E.waspShootEffect,
 	shootSound: SO.missileFastestFlight, 
+	smokeEffect: Fx.none,
 	health: 4850,
 	size: 4,
 	reloadTime: 1800,
@@ -156,74 +176,84 @@ Wasp.ammo(
 const ExecutionerPhotoniteBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 65, 115, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 65, 80, b.rotation()-90);
         Draw.color();
     } 
 });
+ExecutionerPhotoniteBullet.hitSize = 12;
 ExecutionerPhotoniteBullet.homingRange = 350.0;
 ExecutionerPhotoniteBullet.homingPower = 0.5;
 ExecutionerPhotoniteBullet.speed = 20;
 ExecutionerPhotoniteBullet.damage = 185;
 ExecutionerPhotoniteBullet.ammoMultiplier = 6.0;
 ExecutionerPhotoniteBullet.lifetime = 18;
+ExecutionerPhotoniteBullet.despawnEffect = E.executionerBulletHitEffect;
+ExecutionerPhotoniteBullet.hitEffect = E.executionerBulletHitEffect;
 
 const ExecutionerSiliconBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 85, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 50, b.rotation()-90);
         Draw.color();
     } 
 });
+ExecutionerSiliconBullet.hitSize = 9;
 ExecutionerSiliconBullet.speed = 10;
 ExecutionerSiliconBullet.damage = 110;
 ExecutionerSiliconBullet.homingRange = 200;
 ExecutionerSiliconBullet.homingPower = 0.3;
 ExecutionerSiliconBullet.ammoMultiplier = 3.0;
 ExecutionerSiliconBullet.lifetime = 20;
+ExecutionerSiliconBullet.despawnEffect = E.executionerBulletHitEffect;
+ExecutionerSiliconBullet.hitEffect = E.executionerBulletHitEffect;
 
 const ExecutionerPlastBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 100, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 55, 60, b.rotation()-90);
         Draw.color();
     } 
 });
+ExecutionerPlastBullet.hitSize = 8;
 ExecutionerPlastBullet.speed = 12;
 ExecutionerPlastBullet.damage = 150;
 ExecutionerPlastBullet.homingRange = 270;
 ExecutionerPlastBullet.homingPower = 0.4;
 ExecutionerPlastBullet.ammoMultiplier = 5.0;
 ExecutionerPlastBullet.lifetime = 30;
+ExecutionerPlastBullet.despawnEffect = E.executionerBulletHitEffect;
+ExecutionerPlastBullet.hitEffect = E.executionerBulletHitEffect;
 
 const ExecutionerSurgeBullet = extend(MissileBulletType, {
     draw(b) {
         Draw.color(C.standartSapphire);
-        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 100, b.rotation()-90);
+        Draw.rect(F.tex("sapphire-bullet1"), b.x, b.y, 50, 60, b.rotation()-90);
         Draw.color();
     } 
 });
+ExecutionerSurgeBullet.hitSize = 10;
 ExecutionerSurgeBullet.speed = 15;
 ExecutionerSurgeBullet.damage = 160;
 ExecutionerSurgeBullet.ammoMultiplier = 8.0;
 ExecutionerSurgeBullet.homingRange = 240;
 ExecutionerSurgeBullet.homingPower = 0.5;
 ExecutionerSurgeBullet.lifetime = 24;
+ExecutionerSurgeBullet.despawnEffect = E.executionerBulletHitEffect;
+ExecutionerSurgeBullet.hitEffect = E.executionerBulletHitEffect;
 
 const Executioner = extendContent(ItemTurret, "executioner", {
 	category: Category.turret, 
-	shootEffect: Fx.none,
+	shootEffect: E.executionerShootEffect,
 	smokeEffect: Fx.none,
 	health: 9350,
 	size: 6,
 	reloadTime: 15,
 	range: 360,
-	inaccuracy: 5.0,
+	inaccuracy: 4,
 	recoilAmount: 5.0,
 	rotateSpeed: 0.8,
-	alternate: true, 
-	spread: 12.0, 
 	buildVisibility: BuildVisibility.shown,
-	requirements: ItemStack.with(Items.metaglass, 340, F.fi("sapphire"), 480, Items.lead, 840, Items.silicon, 325, Items.surgeAlloy, 225, F.fi("palladium"), 400), 
+	requirements: ItemStack.with(Items.metaglass, 340, F.fi("sapphire"), 480, Items.lead, 840, Items.silicon, 325, Items.surgeAlloy, 225, F.fi("palladium"), 400, F.fi("orbon"), 300), 
     
 	load(){
 		this.super$load(),
@@ -244,7 +274,7 @@ Executioner.buildType = () => {
 	    shoot(type){
 	        var i = Mathf.round(Mathf.signs[this.shotCounter % 2]);
 	
-	        this.block.tr.trns(this.rotation - 90, 2 * i, this.size * 4 + 2);
+	        this.block.tr.trns(this.rotation - 90, 6.5 * i, 20);
 	        this.bullet(type, this.rotation + Mathf.range(this.block.inaccuracy));
 
             this.shotCounter++;
@@ -283,3 +313,10 @@ for(var i = 0; i < Sbullets.length; i++) {
     b.lightRadius = 24.0;
     b.lightOpacity = 0.5;
 };
+
+////
+
+F.techNode(Blocks.duo, Mosquito, ItemStack.with(Items.metaglass, 2500, F.fi("sapphire"), 4000, Items.lead, 5000, Items.silicon, 3500));
+F.techNode(Mosquito, Wasp, ItemStack.with(Items.metaglass, 24000, F.fi("sapphire"), 30000, Items.lead, 45000, Items.silicon, 25000, Items.surgeAlloy, 18500, F.fi("cutol"), 15000));
+F.techNode(Wasp, Executioner, ItemStack.with(Items.metaglass, 52000, F.fi("sapphire"), 65000, Items.lead, 95000, Items.silicon, 44000, Items.surgeAlloy, 28000, F.fi("palladium"), 45000), F.fi("orbon"), 20000);
+
