@@ -39,13 +39,14 @@ C.emeraldDark = Color.valueOf("57A765");
 C.sapphireLight = Color.valueOf("8EA4D6");
 C.sapphire = Color.valueOf("6E82AF");
 C.sapphireDark = Color.valueOf("66739A");
+C.standartSapphire = Color.valueOf("#00ABFF");
 
 C.sapphireUnitDecalLight = Color.valueOf("67ECEC");
 C.sapphireUnitDecal = Color.valueOf("5086CB");
 C.sapphireUnitDecalDark = Color.valueOf("0071FF");
 
 //diamond = angel && diamond == angel 
-C.diamondLight = Color.valueOf("#FFFEFD");
+C.angelLight = C.diamondLight = Color.valueOf("#FFFEFD");
 C.angel = C.diamond = Color.valueOf("EDECEB");
 C.angelDark = C.diamondDark = Color.valueOf("CCCDDA");
 
