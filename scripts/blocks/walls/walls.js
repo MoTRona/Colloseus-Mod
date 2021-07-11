@@ -111,7 +111,7 @@ function newLaculisWall(name, size, health, number, child, number2, lightningCha
 				vec.trns(Angles.angle(this.x, this.y, b.x, b.y), this.size * Vars.tilesize);
 		
 				if(Mathf.chance(lightningChance)){
-		            Lightning.create(this.team, C.sapphireLight, lightningDamage, vec.x + this.x, vec.y + this.y, b.rotation + 180, lightningLength + Mathf.random(5.0));
+		            Lightning.create(this.team, C.laculisLight, lightningDamage, vec.x + this.x, vec.y + this.y, b.rotation + 180, lightningLength + Mathf.random(5.0));
 				}
 			}
 		});
