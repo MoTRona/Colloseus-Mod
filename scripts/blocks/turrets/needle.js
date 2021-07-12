@@ -25,7 +25,7 @@ LilSpike.drag = 0.03;
 LilSpike.pierce = true;
 LilSpike.hitSize = 4;
 LilSpike.pierceCap = 2;
-LilSpike.status = S.Slowest;
+LilSpike.status = S.Petrifaction;
 LilSpike.statusDuration = 300;
 
 const Spike = extend(BasicBulletType, {
@@ -65,7 +65,7 @@ Spike.drag = 0.02;
 Spike.pierce = true;
 Spike.hitSize = 6;
 Spike.pierceCap = 6;
-Spike.status = S.Slowest;
+Spike.status = S.Petrifaction;
 Spike.statusDuration = 150;
 
 const NeedleBullet = extend(BasicBulletType, {
@@ -92,7 +92,7 @@ NeedleBullet.pierce = true;
 NeedleBullet.pierceBuilding = true;
 NeedleBullet.hitSize = 8;
 NeedleBullet.pierceCap = 4;
-NeedleBullet.status = S.Slowest;
+NeedleBullet.status = S.Petrifaction;
 NeedleBullet.statusDuration = 720;
 
 const Needle = extendContent(ItemTurret, "needle", {
@@ -187,7 +187,7 @@ Needle.buildType = () => {
 Needle.ammo(
     F.fi("orbon"), Spike
 );
-Needle.consumes.power(1600/60.0);
+Needle.consumes.power(3250.0/60.0);
 Needle.consumes.liquid(F.fl("helium-liquid"), 10.0/60.0);
 
 F.techNode(F.fb("spike"), Needle, ItemStack.with(F.fi("diamond"), 150000, Items.surgeAlloy, 100000, Items.silicon, 90000, Items.thorium, 55000, F.fi("contritum"), 50000, F.fi("orbon"), 64000, F.fi("palladium"), 85000, F.fi("meteorite"), 120000, F.fi("photonite"), 120000));

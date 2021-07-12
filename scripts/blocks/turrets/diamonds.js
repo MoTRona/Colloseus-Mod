@@ -189,7 +189,7 @@ SpikeCircleOrbonBullet.reflectable = false;
 SpikeCircleOrbonBullet.hittable = false;
 SpikeCircleOrbonBullet.hitSize = 10.0;
 
-SpikeCircleOrbonBullet.status = S.Slowest;
+SpikeCircleOrbonBullet.status = S.Petrifaction;
 SpikeCircleOrbonBullet.statusDuration = 60.0 * 3.0;
 
 const Spike = extendContent(ItemTurret, "spike", {
