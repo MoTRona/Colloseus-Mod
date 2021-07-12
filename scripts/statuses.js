@@ -21,6 +21,7 @@ const statusArray = (amount, value, startValue, name) => {
 			e.damageMultiplier = name == "damageMul" ? val : 1.0;
 			e.armorMultiplier = name == "armorMul" ? val : 1.0;
 			e.damage = name == "damage" ? val : 0.0;
+			e.show = false;
 			
 			seq.add(e); 
 		} catch(e) {
@@ -38,28 +39,32 @@ S.armorMul = statusArray(30, 0.1, 0.0, "armorMul");
 
 
 //custom slow = 0.4
-const Slower = extendContent(StatusEffect, "slower", {
+const Slowdown = extend(StatusEffect, "slowdown", {
 	speedMultiplier: 0.8, 
-	color: Pal.lightishGray
+	color: Pal.lightishGray, 
+	show: true
 });
-S.Slower = Slower;
+S.Slowdown = Slowdown;
 
-const Slowest = extendContent(StatusEffect, "slowest", {
-	speedMultiplier: 0.15, 
-	color: Color.valueOf("#706F74")
+const Petrifaction = extend(StatusEffect, "petrifaction", {
+	speedMultiplier: 0.1, 
+	color: Color.valueOf("#706F74"), 
+	show: true
 });
-S.Slowest = Slowest;
+S.Petrifaction = Petrifaction;
 
 
 
 
-const burningIntensive = extendContent(StatusEffect, "burning-intensive", {});
-burningIntensive.damageMultiplier = 0.8;
-burningIntensive.damage = 1.1;
-burningIntensive.speedMultiplier = 0.9;
-burningIntensive.armorMultiplier = 0.8;
-burningIntensive.color = C.unitOrangeLight;
-burningIntensive.effect = E.burningIntensiveEffect;
+const burningIntensive = extend(StatusEffect, "burning-intensive", {
+	damageMultiplier: 0.8,
+	damage: 1.1,
+	speedMultiplier: 0.9,
+	armorMultiplier: 0.8,
+	color: C.unitOrangeLight,
+	effect: E.burningIntensiveEffect,
+	show: false
+});
 burningIntensive.init(run(() => {
 	burningIntensive.opposite(StatusEffects.freezing, StatusEffects.wet);
 	burningIntensive.trans(StatusEffects.melting, ((unit, time, newTime, result) => {
@@ -76,14 +81,15 @@ S.burningIntensive = burningIntensive;
 
 
 
-
-const burningIntensiver = extendContent(StatusEffect, "burning-intensiver", {});
-burningIntensiver.damageMultiplier = 0.65;
-burningIntensiver.damage = 1.3;
-burningIntensiver.speedMultiplier = 0.8;
-burningIntensiver.armorMultiplier = 0.7;
-burningIntensiver.color = C.unitOrangeLight;
-burningIntensiver.effect = E.burningIntensiverEffect;
+const burningIntensiver = extendContent(StatusEffect, "burning-intensiver", {
+	damageMultiplier: 0.65,
+	damage: 1.3,
+	speedMultiplier: 0.8,
+	armorMultiplier: 0.7,
+	color: C.unitOrangeLight,
+	effect: E.burningIntensiverEffect,
+	show: false
+});
 burningIntensiver.init(run(() => {
 	burningIntensiver.opposite(StatusEffects.freezing, StatusEffects.wet);
 	burningIntensiver.trans(StatusEffects.melting, ((unit, time, newTime, result) => {
@@ -104,13 +110,14 @@ S.burningIntensiver = burningIntensiver;
 
 
 
-const curse = extendContent(StatusEffect, "curse", {});
-curse.damageMultiplier = 0.8;
-curse.damage = 300.0/60.0;
-curse.speedMultiplier = 0.75;
-curse.armorMultiplier = 0.5;
-curse.color = Pal.lightFlame;
-curse.effect = Fx.burning;
+const curse = extendContent(StatusEffect, "curse", {
+	damageMultiplier: 0.8,
+	damage: 300.0/60.0,
+	speedMultiplier: 0.75,
+	armorMultiplier: 0.5,
+	color: C.curse,
+	effect: Fx.burning
+});
 curse.init(run(() => {
 	curse.opposite(StatusEffects.freezing, StatusEffects.wet);
 	curse.trans(StatusEffects.melting, ((unit, time, newTime, result) => {

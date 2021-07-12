@@ -98,6 +98,10 @@ C.lightsLight = Color.valueOf("55A3BD");
 C.lights = Color.valueOf("468DA4");
 C.lightsDark = Color.valueOf("36778C");
 
+C.curseLight = Color.valueOf("D6FF09");
+C.curse = Color.valueOf("B1FB06");
+C.curseDark = Color.valueOf("35CA15");
+
 C.gemColors = new Seq();
 C.gemColors.add(
     C.sapphire,
