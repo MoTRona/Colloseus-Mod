@@ -1,74 +1,46 @@
 const F = require("func");
 const E = this.global.EFFECTS;
 const C = this.global.COLORS;
+const SO = this.global.SOUNDS;
+const S = this.global.STATUSES;
 
-const GemLightningBullet = extend(LightningBulletType, {}); 
-GemLightningBullet.lightningColor = C.diamondDark;
-GemLightningBullet.lightningLength = 90;
-GemLightningBullet.lightningLengthRand = 15;
-GemLightningBullet.damage = 800;
-GemLightningBullet.drawSize = 900;
-
-const GemTrailBullet = extend(ArtilleryBulletType, {
+const GemSpear = extend(BasicBulletType, {
     draw(b) {
-        Tmp.c1.set(C.diamond.cpy().mul(0.9)).lerp(C.diamondDark, b.fin());
-        
-    	if(b.data != null) b.data.draw(Tmp.c1, 1.6);
-    }, 
-    
-    update(b) {
-        if(this.homingPower > 0.0001 && b.time >= this.homingDelay){
-            var target = Units.closestTarget(b.team, b.x, b.y, this.homingRange, boolf(e => (e.isGrounded() && this.collidesGround) || (e.isFlying() && this.collidesAir)), boolf(t => this.collidesGround));
-            if(target != null){
-                b.vel.setAngle(Mathf.slerpDelta(b.rotation(), b.angleTo(target), this.homingPower/5 + this.homingPower * 2 * b.fin()));
-            } else if(target == null && this.weaveMag > 0){
-	            var scl = Mathf.randomSeed(this.id, 0.9, 1.1);
-	            b.vel.rotate(Mathf.sin(b.time + Mathf.PI * this.weaveScale/2.0 * scl, this.weaveScale * scl, this.weaveMag) * Time.delta);
-	        } 
-        };
-    
-        var tx = Angles.trnsx(b.rotation, 0.0, 0.0) + b.x;
-        var ty = Angles.trnsy(b.rotation, 0.0, 0.0) + b.y;
-        if(b.data != null) b.data.update(tx, ty);
-        
-        b.vel.scl(1.01);
-    }, 
-    
-    despawned(b) {
-    	this.hitEffect.at(b.x, b.y, b.rotation(), this.hitColor);
-        this.hitSound.at(b);
-    
-    	b.data = null;
-    }, 
-    
-    hit(b, x, y) {
-    	this.hitEffect.at(b.x, b.y, b.rotation(), this.hitColor);
-        this.hitSound.at(b);
-        
-        E.angelLight.at(b.x, b.y, b.rotation(), C.diamondDark);
-    } 
+        Draw.color(C.magicLight, C.magic, b.fin());
+        Drawf.tri(b.x, b.y, 8.0, 8.0, Time.time + (360/b.time) * 6.0); 
+    }
 });
+GemSpear.hitSize = 8;
+GemSpear.knockback = 120.0;
+GemSpear.damage = 500000;
+GemSpear.speed = 10;
+GemSpear.lifetime = 1000;
+GemSpear.hitEffect = E.magicBulletHitSmall;
+GemSpear.despawnEffect = E.magicBulletHitSmall;
+GemSpear.hitColor = C.magicLight.cpy();
+GemSpear.shootEffect = E.magicShootEffect;
 
-GemTrailBullet.weaveScale = 4.0;
-GemTrailBullet.weaveMag = 3.5;
-GemTrailBullet.homingPower = 0.1;
-GemTrailBullet.homingRange = 240;
-GemTrailBullet.homingDelay = 5;
-GemTrailBullet.hitEffect = E.gemLaserHit;
-GemTrailBullet.hitColor = C.diamondDark;
-GemTrailBullet.speed = 6.5;
-GemTrailBullet.damage = 700;
-GemTrailBullet.drawSize = 900;
-GemTrailBullet.lifetime = 60.0;
-GemTrailBullet.despawnEffect = Fx.none;
-GemTrailBullet.pierce = true;
-GemTrailBullet.collidesAir = true;
-GemTrailBullet.shootEffect = Fx.none;
-GemTrailBullet.smokeEffect = Fx.none;
-
-const Gem = extendContent(ItemTurret, "gem", {
+const Gem = extendContent(Turret, "gem", {
+	itemCapacity: 150,
+	liquidCapacity: 150,
+	hasPower: true,
+	hasItems: true,
+	hasLiquids: true,
+	outputsPower: false,
+	consumesPower: true,
+	acceptsItems: true, 
+	update: true, 
+	size: 14,
+	health: 540 * 14 * 14,
+	recoilAmount: 25.0,
+	range: 1000.0,
+	buildVisibility: BuildVisibility.shown, 
+	category: Category.turret, 
+	powerUse: 2500,
+	requirements: ItemStack.with(Items.surgeAlloy, 1800, F.fi("meteorite"), 1500, F.fi("palladium"), 1650, Items.titanium, 800, Items.thorium, 800, F.fi("photonite"), 1200, Items.metaglass, 1450, Items.silicon, 1200), 
+	
 	init(){
-        this.consumes.powerCond(this.powerUse, entity => entity.target != null || entity.wasShooting);
+        this.consumes.powerCond(this.powerUse, gem => gem.target != null || gem.wasShooting);
         this.super$init();
     }, 
     
@@ -84,113 +56,93 @@ const Gem = extendContent(ItemTurret, "gem", {
 			Core.atlas.find("collos-block-" + this.size),
 			Core.atlas.find(this.name)
 		];
-	}
+	}, 
+	
+	setBars(){
+	    this.super$setBars();
+
+	    this.bars.add("charge",
+            func(e =>
+		        new Bar(
+	                prov(() => Core.bundle.get("charge")+": "+e.getPowerCharge()+"/100000"),
+			        prov(() => e.getPowerCharge() == 100000 ? C.rubyLight : C.angelLight),
+			        floatp(() => e.getPowerCharge()/100000)
+	            )
+	        )
+        )
+    } 
 });
 Gem.buildType = () => {
-	const ent = extendContent(ItemTurret.ItemTurretBuild, Gem, {
+	const ent = extendContent(Turret.TurretBuild, Gem, {
 		init(tile, team, shouldAdd, rotation){
 			this.super$init(tile, team, shouldAdd, rotation);
 			
-			this.setBullets([GemTrailBullet, GemTrailBullet, GemLightningBullet, GemLightningBullet]);
-
+			this.setPowerCharge(0);
+			
 			return this;
-		}, 
+		},  
 		
-        updateShooting(){
-            var type = this.getBullets().get(this.shotCounter % this.getBullets().size);
-            this.shoot(type);
-        }, 
-        
-        shoot(type){
-            var i = (this.shotCounter % this.block.shots) - (this.block.shots-1) / 2.0;
-            var r = this.shotCounter % 2 == 0 ? -1 : 1;
-            
-            var AdditionalRandAngle = 0;
-            var AdditionalAngle = 0;
-            if(type instanceof LightningBulletType) AdditionalRandAngle += 10;
-            if(type.weaveScale > 0) AdditionalAngle -= (type.weaveScale + type.weaveMag)/2.0;
-
-            if(type instanceof LightningBulletType || (type instanceof ArtilleryBulletType && type.speed == 6.5)) {
-	            this.block.tr.trns(this.rotation - 90, this.block.spread * i + 44 * r, this.block.size * 4 - 51);
-	            this.bullet(type, this.rotation + Mathf.range(this.block.inaccuracy + AdditionalAngle));
-            } else{
-	            this.block.tr.trns(this.rotation - 90, this.block.spread * i + 0 * r, this.block.size * 4 - 2);
-	            this.bullet(type, this.rotation - AdditionalAngle + Mathf.range(this.block.inaccuracy + AdditionalRandAngle));
-	        };
-
-            this.recoil = this.block.recoilAmount;
-            this.heat = 1.0;
-            this.effects();
-            //this.useAmmo(); there is no ammo, lol
-            
-            this.shotCounter++; 
-        }, 
-        
-        hasAmmo(){
+        acceptItem(source, item){
+            this.setPowerCharge(Math.min(this.getPowerCharge()+item.hardness+item.cost, 100000)); 
             return true;
-        }, 
-	
-        effects(){
-            var type = this.getBullets().get(this.shotCounter % this.getBullets().size);
-
-            type.shootEffect.at(this.x + this.block.tr.x, this.y + this.block.tr.y, this.rotation);
-            type.smokeEffect.at(this.x + this.block.tr.x, this.y + this.block.tr.y, this.rotation);
-            this.block.shootSound.at(this.tile);
-
-            if(this.block.shootShake > 0){
-                Effect.shake(this.block.shootShake, this.block.shootShake, this.tile.build);
-            };
-
-            this.recoil = this.block.recoilAmount;
         },
+		
+        acceptStack(item, amount, source){return 0}, 
+        handleItem(source, item){}, 
+        handleStack(item, amount, source){},         //I'm sure these methods are very frustrated with their uselessness. Sad
+        effects(){},
+        peekAmmo(){}, 
+        ejectEffects(){}, 
 
-       targetPosition(pos){
-            this.targetPos.set(Predict.intercept(this, pos, 1.0e7));
-            if(this.targetPos.isZero()){
-                this.targetPos.set(this.target);
+        updateShooting(){
+            if(!this.charging){
+                this.shoot(GemSpear);
             }
         }, 
         
-        bullet(type, angle){
-        	type
-            var lifeScl = type.scaleVelocity ? Mathf.clamp(Mathf.dst(this.x + this.block.tr.x, this.y + this.block.tr.y, this.targetPos.x, this.targetPos.y) / type.range(), this.block.minRange / type.range(), this.block.range / type.range()) : 1.0;
-
-            var bu = type.create(this, this.team, this.x + this.block.tr.x, this.y + this.block.tr.y, angle, 1.0 + Mathf.range(this.block.velocityInaccuracy), lifeScl);
-            bu.data = new Trail(4);
+        shoot(type){
+            this.block.tr.trns(this.rotation - 90, 0, this.block.size * 4 - 20);
+            this.bullet(type, this.rotation + Mathf.range(this.block.inaccuracy));
+	 
+            this.recoil = this.block.recoilAmount;
+            this.heat = 1.0;
         }, 
 
-		readBase(read){
-			this.super$readBase(read);
-
-			this.setBullets([GemTrailBullet, GemTrailBullet, GemLightningBullet, GemLightningBullet]); 
-		}, 
-
-		setBullets(a){
-			this._bullets = new Seq(a);
+        
+        hasAmmo(){
+            return this.getPowerCharge() == 100000;
+        }, 
+        
+		setPowerCharge(a){
+			this._charge = a;
+		},
+        
+		usePower(){
+			this._charge = 0;
 		},
 
-		getBullets(){
-			return this._bullets;
+		getPowerCharge(){
+			return this._charge;
 		}
 	});
 	return ent;
 };
-Gem.hasLiquids = true;
-Gem.hasPower = true;
-Gem.consumesPower = true;
-Gem.outputsPower = false;
-Gem.update = true;
-//Gem.reloadTime = 1; this turret has no reload.
-Gem.size = 14;
-Gem.range = 520;
-Gem.ammoUseEffect = Fx.none;
-Gem.inaccuracy = 15;
-Gem.recoilAmount = 5.0;
-Gem.powerUse = 120000.0/60.0;
 Gem.consumes.liquid(F.fl("helium-liquid"), 0.5);
-Gem.category = Category.turret;
-Gem.buildCostMultiplier = 0.5;
-Gem.buildVisibility = BuildVisibility.shown;
-Gem.requirements = ItemStack.with(Items.surgeAlloy, 1800, F.fi("meteorite"), 1500, F.fi("palladium"), 1650, Items.titanium, 800, Items.thorium, 800, F.fi("photonite"), 1200, Items.metaglass, 1450, Items.silicon, 1200);
 
-F.node(F.fb("duo"), Gem, ItemStack.with(Items.surgeAlloy, 1800, F.fi("meteorite"), 1500, F.fi("palladium"), 1650, Items.titanium, 800, Items.thorium, 800, F.fi("photonite"), 1200, Items.metaglass, 1450, Items.silicon, 1200), Seq.with(new Objectives.Research(F.fi("meteorite")), new Objectives.Research(F.fi("contritum")), new Objectives.Research(F.fb("absorber"))));
+F.node(F.fb("duo"), Gem, 
+    ItemStack.with(
+	    Items.surgeAlloy, 225000, F.fi("meteorite"), 180000, 
+	    F.fi("palladium"), 195000, Items.titanium, 100000, 
+	    Items.thorium, 115000, F.fi("photonite"), 160000, 
+	    Items.metaglass, 200000, Items.silicon, 185000, 
+	    F.fi("contritum"), 250000
+    ), Seq.with(
+	    new Objectives.Research(F.fi("meteorite")), 
+        new Objectives.Research(F.fi("contritum")),
+        new Objectives.Research(F.fb("twinkle")), 
+        new Objectives.Research(F.fb("decomposer")),
+        new Objectives.Research(F.fb("executioner")), 
+        new Objectives.Research(F.fb("needle")), 
+        new Objectives.Research(F.fb("absorber"))
+    )
+);
